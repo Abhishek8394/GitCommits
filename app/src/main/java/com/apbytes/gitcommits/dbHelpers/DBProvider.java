@@ -172,10 +172,12 @@ public class DBProvider extends ContentProvider {
             case COMMITS:
                 // want to perform delete query on table
                 rowsDeleted = db.delete(DBContract.CommitEntry.TABLE_NAME, selection, selectionArgs);
+                getContext().getContentResolver().notifyChange(DBContract.CommitEntry.buildCommitTableUri(), null);
                 break;
             case COMMIT_BY_ID:
                 // delete a specific commit.
                 rowsDeleted = deleteCommitById(uri);
+                getContext().getContentResolver().notifyChange(DBContract.CommitEntry.buildCommitTableUri(), null);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown delete URI: " + uri);

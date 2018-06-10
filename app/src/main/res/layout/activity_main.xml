@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="#eee"
     tools:context="com.apbytes.gitcommits.MainActivity">
 
     <android.support.design.widget.AppBarLayout

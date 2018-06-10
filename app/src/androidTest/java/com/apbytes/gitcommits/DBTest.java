@@ -83,8 +83,8 @@ public class DBTest {
         DateFormat dateFormat = new SimpleDateFormat(Utility.ISO_DATE_FORMAT);
         for(int i=0; i<num; i++){
             ContentValues cv = new ContentValues();
-            cv.put(DBContract.CommitEntry.COLUMN_AUTHOR_NAME, "author-" + num);
-            cv.put(DBContract.CommitEntry.COLUMN_MESSAGE, "message - " + num);
+            cv.put(DBContract.CommitEntry.COLUMN_AUTHOR_NAME, "author-" + i);
+            cv.put(DBContract.CommitEntry.COLUMN_MESSAGE, "message - " + i);
             cv.put(DBContract.CommitEntry.COLUMN_COMMIT_TIME, dateFormat.format(new Date()));
             cvs[i] = cv;
         }
