@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.apbytes.gitcommits.Utility;
+import com.apbytes.gitcommits.Utils.Utility;
 
 /**
  * Created by Abhishek on 6/8/2018.
@@ -33,4 +33,8 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
 }

@@ -1,62 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_gravity="center"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:paddingTop="7dp"
+    android:paddingBottom="12dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/commitAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="1dp"
-        card_view:contentPaddingTop="5dp"
-        card_view:contentPaddingLeft="5dp"
-        card_view:contentPaddingBottom="5dp"
-        card_view:contentPaddingRight="5dp"
-        card_view:cardPreventCornerOverlap="true"
-        android:background="#eee"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/commitAuthor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="fooAuthor"
-                android:textColor="#222"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                />
+        android:textStyle="bold"
+        android:textColor="#222"
+        android:layout_marginBottom="3dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        />
 
-            <TextView
-                android:id="@+id/commitTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#555"
-                android:text="13 march, 2018"
-                android:textSize="4pt"
-                android:layout_marginBottom="5dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                />
+    <TextView
+        android:id="@+id/commitTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#555"
+        android:textSize="4pt"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="8dp"
-                android:background="@android:color/darker_gray"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/darker_gray"/>
 
-            <TextView
-                android:id="@+id/commitMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:textColor="#222"
-                android:textSize="5.5pt"
-                android:text="SOMEWKL JNSKLFH LKSDJJKDfh lsdkjhflkdjhflkjdfh uieah lHLDKSF hldksjf hldjksf "/>
+    <TextView
+        android:id="@+id/commitMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColor="#222"
+        android:textSize="5.5pt"
+        />
 
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
+</LinearLayout>

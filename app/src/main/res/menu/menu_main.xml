@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apbytes.gitcommits.MainActivity">
     <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="101"
+        android:title="Refresh"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/stat_notify_sync_noanim"
+        />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.apbytes.gitcommits.Utility;
+import com.apbytes.gitcommits.Utils.Utility;
 import com.apbytes.gitcommits.dbHelpers.CommonQueriesHelper;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
 import com.apbytes.gitcommits.githubHelpers.GitCommit;

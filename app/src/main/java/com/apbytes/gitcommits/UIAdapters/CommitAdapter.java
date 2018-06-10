@@ -9,7 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.apbytes.gitcommits.R;
-import com.apbytes.gitcommits.Utility;
+import com.apbytes.gitcommits.Utils.Utility;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
 
 import java.text.ParseException;

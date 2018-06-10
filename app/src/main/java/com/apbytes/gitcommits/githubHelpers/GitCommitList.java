@@ -3,7 +3,7 @@ package com.apbytes.gitcommits.githubHelpers;
 import android.net.Uri;
 import android.util.Log;
 
-import com.apbytes.gitcommits.Utility;
+import com.apbytes.gitcommits.Utils.Utility;
 import com.apbytes.gitcommits.networking.NetworkHelper;
 
 import org.json.JSONArray;

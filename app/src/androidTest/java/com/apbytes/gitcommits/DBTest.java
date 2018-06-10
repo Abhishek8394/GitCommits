@@ -10,11 +10,10 @@ import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
+import com.apbytes.gitcommits.Utils.Utility;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
 import com.apbytes.gitcommits.dbHelpers.DBHelper;
-import com.jcabi.github.Commit;
 
 import junit.framework.Assert;
 

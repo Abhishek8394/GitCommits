@@ -1,6 +1,7 @@
 package com.apbytes.gitcommits.networking;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,6 +23,7 @@ public class NetworkHelper {
     // Constants
     public static final String GET_METHOD = "GET";
     public static final String POST_METHOD = "POST";
+    private static final String TAG = "NetworkHelper";
 
 
     public static Uri addGetParams(String uriString, HashMap<String, String> getParams){
@@ -56,6 +58,7 @@ public class NetworkHelper {
             URL url = new URL(uri);
             // open connection
             connection = (HttpsURLConnection)url.openConnection();
+            Log.d(TAG, "Making request to " + url.toString());
             // set connection params
             connection.setConnectTimeout(3000);
             connection.setRequestMethod(method);

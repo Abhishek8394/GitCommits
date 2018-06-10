@@ -1,4 +1,4 @@
-package com.apbytes.gitcommits;
+package com.apbytes.gitcommits.Utils;
 
 import android.util.Log;
 

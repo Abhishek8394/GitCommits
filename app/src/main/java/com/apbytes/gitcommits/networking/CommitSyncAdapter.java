@@ -4,20 +4,11 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
-import com.apbytes.gitcommits.Utility;
-import com.apbytes.gitcommits.dbHelpers.DBContract;
-import com.apbytes.gitcommits.githubHelpers.GitCommit;
-import com.apbytes.gitcommits.githubHelpers.GitCommitList;
-import com.apbytes.gitcommits.githubHelpers.GitRepo;
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
-import com.jcabi.github.Commits;
-
-import java.util.ArrayList;
 
 /**
  * Created by Abhishek on 6/10/2018.
