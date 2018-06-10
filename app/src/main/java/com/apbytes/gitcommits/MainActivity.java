@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
 import com.apbytes.gitcommits.networking.CommitSynchronizer;
 
+import java.io.InvalidObjectException;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -95,7 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            commitSynchronizer.syncCommits(githubClient, params[0], params[1]);
+            try {
+                commitSynchronizer.syncCommits(githubClient, params[0], params[1]);
+            } catch (InvalidObjectException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }

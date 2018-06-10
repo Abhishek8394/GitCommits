@@ -36,6 +36,7 @@ public class CommitAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        TextView titleTV = (TextView) view.findViewById(R.id.commitTitle);
         TextView authorTV = (TextView) view.findViewById(R.id.commitAuthor);
         TextView timeTV = (TextView) view.findViewById(R.id.commitTime);
         TextView messageTV = (TextView) view.findViewById(R.id.commitMessage);
@@ -44,7 +45,7 @@ public class CommitAdapter extends CursorAdapter {
         // time_string is ISO format.
         String timestring = cursor.getString(cursor.getColumnIndex(DBContract.CommitEntry.COLUMN_COMMIT_TIME));
         // extract commit message
-        String message = timestring + "   " + cursor.getString(cursor.getColumnIndex(DBContract.CommitEntry.COLUMN_MESSAGE));
+        String message = cursor.getString(cursor.getColumnIndex(DBContract.CommitEntry.COLUMN_MESSAGE));
         // Convert time to local format.
         try {
             Date d = Utility.convertISOtoLocale(timestring);
@@ -53,9 +54,11 @@ public class CommitAdapter extends CursorAdapter {
             e.printStackTrace();
         }
         // bind values
-        authorTV.setText(author);
+        String []messageSplit = message.split("\n");
+        String titleText = messageSplit[0].substring(0, Math.min(23, messageSplit[0].length())) + "..";
+        titleTV.setText(titleText);
+        authorTV.setText("@" + author);
         timeTV.setText(timestring);
         messageTV.setText(message);
-
     }
 }

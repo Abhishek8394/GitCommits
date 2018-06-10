@@ -13,6 +13,7 @@ import com.apbytes.gitcommits.githubHelpers.GitCommitList;
 import com.apbytes.gitcommits.githubHelpers.GitRepo;
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -36,7 +37,7 @@ public class CommitSynchronizer {
         return cv;
     }
 
-    public void syncCommits(GithubClient githubClient, String userName, String repoName){
+    public void syncCommits(GithubClient githubClient, String userName, String repoName) throws InvalidObjectException {
         GitRepo repo = new GitRepo(githubClient, userName, repoName);
         GitCommitList commitList = repo.getCommits(null);
         ArrayList<GitCommit> commits = commitList.getCommitList();

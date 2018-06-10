@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InvalidObjectException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class GitCommitList {
      * @param params Contains key value pairs for query. See Github commits api docs
      *               at https://developer.github.com/v3/repos/commits/
      */
-    public void fetchCommits(HashMap<String, String> params) throws JSONException {
+    public void fetchCommits(HashMap<String, String> params) throws JSONException, InvalidObjectException {
         Log.d(TAG, Uri.parse(GitConstants.GIT_BASE_URL).toString());
         Uri uri = Uri.parse(GitConstants.GIT_BASE_URL).buildUpon()
                 .appendPath(GitConstants.REPOS_PATH)
@@ -56,6 +57,10 @@ public class GitCommitList {
                 .appendPath(GitConstants.COMMITS_PATH)
                 .build();
         String result = NetworkHelper.makeRequest(uri.toString(), NetworkHelper.GET_METHOD, params, null);
+        if(result == null){
+            Log.d(TAG, "Failed to fetch commits.");
+            throw new InvalidObjectException("Received null from API response.");
+        }
         parseAndPopulateCommits(result);
     }
 

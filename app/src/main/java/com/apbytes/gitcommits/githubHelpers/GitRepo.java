@@ -2,6 +2,7 @@ package com.apbytes.gitcommits.githubHelpers;
 
 import org.json.JSONException;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class GitRepo {
         this.githubClient = gClient;
     }
 
-    public GitCommitList getCommits(HashMap<String, String> params){
+    public GitCommitList getCommits(HashMap<String, String> params) throws InvalidObjectException {
         GitCommitList gitCommitList = new GitCommitList(this);
         try {
             gitCommitList.fetchCommits(null);

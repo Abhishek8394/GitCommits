@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
 
+import java.io.InvalidObjectException;
+
 /**
  * Created by Abhishek on 6/10/2018.
  */
@@ -38,6 +40,10 @@ public class CommitSyncAdapter extends AbstractThreadedSyncAdapter {
         String userName = extras.getString(REPO_USER_NAME_KEY);
         String repoName = extras.getString(REPO_NAME_KEY);
         CommitSynchronizer commitSynchronizer = new CommitSynchronizer(getContext());
-        commitSynchronizer.syncCommits(githubClient, userName, repoName);
+        try {
+            commitSynchronizer.syncCommits(githubClient, userName, repoName);
+        } catch (InvalidObjectException e) {
+            e.printStackTrace();
+        }
     }
 }
