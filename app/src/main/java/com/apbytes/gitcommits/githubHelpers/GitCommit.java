@@ -12,7 +12,7 @@ public class GitCommit {
     Date commitTime;
 
     GitCommit(){
-
+        commitTime = new Date();
     }
 
     public GitCommit(String userName, String commiterName, Date commitTime) {
