@@ -19,6 +19,8 @@ import android.widget.ListView;
 
 import com.apbytes.gitcommits.UIAdapters.CommitAdapter;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
+import com.apbytes.gitcommits.githubHelpers.GithubClient;
+import com.apbytes.gitcommits.networking.CommitSynchronizer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,6 +39,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     int cvptr;
     CommitAdapter cursorAdapter;
     ListView lv;
+    CommitSynchronizer commitSynchronizer;
+
     public MainActivityFragment() {
     }
 
@@ -44,6 +48,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(0, null, this);
+        commitSynchronizer = new CommitSynchronizer(getActivity());
     }
 
     public ContentValues[] getDummyCommitRows(int num){
@@ -75,8 +80,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         addbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cr.insert(DBContract.CommitEntry.buildCommitTableUri(), cvpool[cvptr]);
-                cvptr = (cvptr + 1) % cvpool.length;
+//                cr.insert(DBContract.CommitEntry.buildCommitTableUri(), cvpool[cvptr]);
+//                cvptr = (cvptr + 1) % cvpool.length;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        commitSynchronizer.syncCommits(new GithubClient(), "poynt", "PoyntSamples");
+                    }
+                }).start();
             }
         });
         removebtn.setOnClickListener(new View.OnClickListener() {

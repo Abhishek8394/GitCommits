@@ -13,7 +13,7 @@ import java.util.TimeZone;
 
 public class Utility {
     private static boolean DEBUG_MODE = true;
-    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'";
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String LOCAL_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
     /**
