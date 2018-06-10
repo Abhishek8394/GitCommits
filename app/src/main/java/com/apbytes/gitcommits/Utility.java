@@ -27,6 +27,11 @@ public class Utility {
         }
     }
 
+    public static Date stringToISODate(String isoDateString) throws ParseException {
+        SimpleDateFormat isoSdf = new SimpleDateFormat(ISO_DATE_FORMAT);
+        return isoSdf.parse(isoDateString);
+    }
+
     public static Date convertISOtoLocale(String isoDateString) throws ParseException {
         SimpleDateFormat isoSdf = new SimpleDateFormat(ISO_DATE_FORMAT);
         isoSdf.setTimeZone(TimeZone.getTimeZone("UTC"));

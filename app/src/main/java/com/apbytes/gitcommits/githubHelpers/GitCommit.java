@@ -8,16 +8,16 @@ import java.util.Date;
 
 public class GitCommit {
     String userName;
-    String commiterName;
+    String commitMessage;
     Date commitTime;
 
-    GitCommit(){
+    public GitCommit(){
         commitTime = new Date();
     }
 
-    public GitCommit(String userName, String commiterName, Date commitTime) {
+    public GitCommit(String userName, String commitMessage, Date commitTime) {
         this.userName = userName;
-        this.commiterName = commiterName;
+        this.commitMessage = commitMessage;
         this.commitTime = commitTime;
     }
 
@@ -29,12 +29,12 @@ public class GitCommit {
         this.userName = userName;
     }
 
-    public String getCommiterName() {
-        return commiterName;
+    public String getCommitMessage() {
+        return commitMessage;
     }
 
-    public void setCommiterName(String commiterName) {
-        this.commiterName = commiterName;
+    public void setCommitMessage(String commitMessage) {
+        this.commitMessage = commitMessage;
     }
 
     public Date getCommitTime() {

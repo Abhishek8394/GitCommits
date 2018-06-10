@@ -6,4 +6,6 @@ package com.apbytes.gitcommits.githubHelpers;
 
 public class GitConstants {
     public static String GIT_BASE_URL = "https://api.github.com";
+    public static String REPOS_PATH = "repos";
+    public static String COMMITS_PATH = "commits";
 }

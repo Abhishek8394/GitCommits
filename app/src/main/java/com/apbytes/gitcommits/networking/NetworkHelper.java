@@ -19,11 +19,40 @@ import javax.net.ssl.HttpsURLConnection;
  */
 
 public class NetworkHelper {
-    public static String makeRequest(String uri, String method, String postParams){
+    // Constants
+    public static final String GET_METHOD = "GET";
+    public static final String POST_METHOD = "POST";
+
+
+    public static Uri addGetParams(String uriString, HashMap<String, String> getParams){
+        Uri parsedUri = Uri.parse(uriString);
+        return addGetParams(parsedUri, getParams);
+    }
+
+    /**
+     * Adds get parameters provided as key value pairs to a url.
+     * @param uri
+     * @param getParams
+     * @return
+     */
+    public static Uri addGetParams(Uri uri, HashMap<String, String> getParams){
+        Uri.Builder uriBuilder = uri.buildUpon();
+        if(getParams != null && getParams.size() > 0){
+            for(String key: getParams.keySet()){
+                uriBuilder.appendQueryParameter(key, getParams.get(key));
+            }
+        }
+        uri = uriBuilder.build();
+        return uri;
+    }
+
+    public static String makeRequest(String uri, String method, HashMap<String, String> getParams, String postParams){
         HttpsURLConnection connection = null;
         InputStream stream = null;
         String result = null;
         try {
+            // add get parametrs to the query.
+            uri = addGetParams(uri, getParams).toString();
             URL url = new URL(uri);
             // open connection
             connection = (HttpsURLConnection)url.openConnection();

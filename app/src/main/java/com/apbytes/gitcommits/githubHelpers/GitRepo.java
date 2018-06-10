@@ -1,5 +1,7 @@
 package com.apbytes.gitcommits.githubHelpers;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,8 +21,14 @@ public class GitRepo {
         this.githubClient = gClient;
     }
 
-    public ArrayList<GitCommit> getCommits(HashMap<String, String> params){
-        return null;
+    public GitCommitList getCommits(HashMap<String, String> params){
+        GitCommitList gitCommitList = new GitCommitList(this);
+        try {
+            gitCommitList.fetchCommits(null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return gitCommitList;
     }
 
     public String getUserName() {

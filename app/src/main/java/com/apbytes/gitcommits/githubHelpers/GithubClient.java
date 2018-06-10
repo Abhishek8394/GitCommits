@@ -8,7 +8,11 @@ public class GithubClient {
     private String token;
     private static String baseUri = "";
 
-    GithubClient(String token){
+    public GithubClient() {
+
+    }
+
+    public GithubClient(String token){
         this.token = token;
     }
 
