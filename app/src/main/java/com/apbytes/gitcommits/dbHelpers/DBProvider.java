@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Abhishek on 6/8/2018.
@@ -17,7 +18,10 @@ import android.support.annotation.Nullable;
  */
 
 public class DBProvider extends ContentProvider {
+    // query param to limit number of records we fetch.
+    public static final String QUERY_LIMIT_PARAM = "limit";
 
+    private static final String TAG = "DBProvider";
     private DBHelper dbHelper;
     private UriMatcher uriMatcher = buildUriMatcher();
     // We need this if we have more tables and need join.
@@ -109,10 +113,13 @@ public class DBProvider extends ContentProvider {
         Cursor result = null;
         switch (uriMatcher.match(uri)){
             case COMMITS:
+                // limit number of results.
+                String limit = uri.getQueryParameter(QUERY_LIMIT_PARAM);
+
                 // generic query against commits table
                 result = dbHelper.getReadableDatabase().query(
                         DBContract.CommitEntry.TABLE_NAME,
-                        projection, selection, selectionArgs, null, null, sortOrder
+                        projection, selection, selectionArgs, null, null, sortOrder, limit
                 );
                 break;
             case COMMIT_BY_ID:

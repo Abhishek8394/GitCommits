@@ -3,6 +3,7 @@ package com.apbytes.gitcommits;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 
 import com.apbytes.gitcommits.UIAdapters.CommitAdapter;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
+import com.apbytes.gitcommits.dbHelpers.DBProvider;
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
 import com.apbytes.gitcommits.networking.CommitSynchronizer;
 
@@ -40,6 +42,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     CommitAdapter cursorAdapter;
     ListView lv;
     CommitSynchronizer commitSynchronizer;
+    int maxRecords = 10;
 
     public MainActivityFragment() {
     }
@@ -106,7 +109,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), DBContract.CommitEntry.buildCommitTableUri(), null, null, null, DBContract.CommitEntry.COLUMN_COMMIT_TIME + " DESC");
+        Uri commitTableUri = DBContract.CommitEntry.buildCommitTableUri();
+        commitTableUri = commitTableUri.buildUpon()
+                .appendQueryParameter(DBProvider.QUERY_LIMIT_PARAM, maxRecords + "")
+                .build();
+        return new CursorLoader(getActivity(), commitTableUri, null, null, null, DBContract.CommitEntry.COLUMN_COMMIT_TIME + " DESC");
     }
 
     @Override
