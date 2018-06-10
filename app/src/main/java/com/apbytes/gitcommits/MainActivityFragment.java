@@ -23,6 +23,7 @@ import com.apbytes.gitcommits.dbHelpers.DBContract;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -53,6 +54,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             cv.put(DBContract.CommitEntry.COLUMN_AUTHOR_NAME, "author-" + i);
             cv.put(DBContract.CommitEntry.COLUMN_MESSAGE, "message - " + i);
             cv.put(DBContract.CommitEntry.COLUMN_COMMIT_TIME, dateFormat.format(new Date()));
+            cv.put(DBContract.CommitEntry.COLUMN_COMMIT_HASH, UUID.randomUUID().toString());
             cvs[i] = cv;
         }
         return cvs;

@@ -7,18 +7,20 @@ import java.util.Date;
  */
 
 public class GitCommit {
-    String userName;
-    String commitMessage;
-    Date commitTime;
+    private String userName;
+    private String commitMessage;
+    private Date commitTime;
+    private String commitHash;
 
     public GitCommit(){
         commitTime = new Date();
     }
 
-    public GitCommit(String userName, String commitMessage, Date commitTime) {
+    public GitCommit(String userName, String commitMessage, Date commitTime, String commitHash) {
         this.userName = userName;
         this.commitMessage = commitMessage;
         this.commitTime = commitTime;
+        this.commitHash = commitHash;
     }
 
     public String getUserName() {
@@ -43,5 +45,13 @@ public class GitCommit {
 
     public void setCommitTime(Date commitTime) {
         this.commitTime = commitTime;
+    }
+
+    public String getCommitHash() {
+        return commitHash;
+    }
+
+    public void setCommitHash(String commitHash) {
+        this.commitHash = commitHash;
     }
 }

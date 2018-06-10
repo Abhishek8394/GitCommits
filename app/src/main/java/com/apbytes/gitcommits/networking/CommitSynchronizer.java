@@ -29,6 +29,7 @@ public class CommitSynchronizer {
         cv.put(DBContract.CommitEntry.COLUMN_MESSAGE, commit.getCommitMessage());
         cv.put(DBContract.CommitEntry.COLUMN_AUTHOR_NAME, commit.getUserName());
         cv.put(DBContract.CommitEntry.COLUMN_COMMIT_TIME, Utility.ISODatetoString(commit.getCommitTime()));
+        cv.put(DBContract.CommitEntry.COLUMN_COMMIT_HASH, commit.getCommitHash());
         return cv;
     }
 

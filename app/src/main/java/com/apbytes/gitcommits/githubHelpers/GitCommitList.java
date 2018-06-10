@@ -73,7 +73,8 @@ public class GitCommitList {
         String commitMessage = commitJSON.getString("message");
         String commitTimeStr = commitJSON.getJSONObject("author").getString("date");
         Date commitTime = Utility.stringToISODate(commitTimeStr);
-        GitCommit commit = new GitCommit(userName, commitMessage, commitTime);
+        String commitHash = commitJSON.getString("sha");
+        GitCommit commit = new GitCommit(userName, commitMessage, commitTime, commitHash);
         return commit;
     }
 

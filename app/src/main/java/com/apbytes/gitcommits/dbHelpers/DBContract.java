@@ -40,6 +40,7 @@ public class DBContract {
         public static final String COLUMN_AUTHOR_NAME = "author_name";
         public static final String COLUMN_MESSAGE = "message";
         public static final String COLUMN_COMMIT_TIME = "commit_time";
+        public static final String COLUMN_COMMIT_HASH = "commit_hash";
 
         /**
          * Returns the command to execute for creating a commits table.
@@ -50,6 +51,7 @@ public class DBContract {
                            + CommitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + ", "
                            + COLUMN_AUTHOR_NAME + " TEXT" + ", "
                            + COLUMN_MESSAGE + " TEXT" + ", "
+                           + COLUMN_COMMIT_HASH + " TEXT UNIQUE" + ", "
                            + COLUMN_COMMIT_TIME + " TEXT" + " );";
             return query;
         }
@@ -82,12 +84,31 @@ public class DBContract {
         }
 
         /**
+         * Build a uri for a single commit based on commit hash
+         * @param hash Commit hash
+         * @return
+         */
+        public static Uri buildCommitUriWithHash(String hash){
+            return CONTENT_URI.buildUpon().appendPath("hash").appendPath(hash).build();
+        }
+
+        /**
          * Extracts ID from uri created by buildCommitUriWithId
          * @param uri
          * @return
          */
         public static String getIdFromUri(Uri uri){
-            // since uri is /id/<id> we get index 1
+            // since uri is /id/<id> we get index 2
+            return uri.getPathSegments().get(2);
+        }
+
+        /**
+         * Extracts Commit hash from uri created by buildCommitUriWithId
+         * @param uri
+         * @return
+         */
+        public static String getHashFromUri(Uri uri){
+            // since uri is /hash/<hash> we get index 2
             return uri.getPathSegments().get(2);
         }
     }

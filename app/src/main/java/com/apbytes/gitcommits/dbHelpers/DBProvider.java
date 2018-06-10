@@ -30,6 +30,7 @@ public class DBProvider extends ContentProvider {
     // Int codes for URI matches.
     private static final int COMMITS = 1;
     private static final int COMMIT_BY_ID = 2;
+    private static final int COMMIT_BY_HASH = 3;
 
     static UriMatcher buildUriMatcher(){
         // The URIs mentioned here must be in sync with buildxUri method of `DBContract.Commit` or any member classes.
@@ -39,6 +40,8 @@ public class DBProvider extends ContentProvider {
         uriMatcher.addURI(authority, DBContract.PATH_COMMIT, COMMITS);
         // query to operate on specific commit.
         uriMatcher.addURI(authority, DBContract.PATH_COMMIT + "/id/#", COMMIT_BY_ID);
+        // query to operate on specific commit based on hash
+        uriMatcher.addURI(authority, DBContract.PATH_COMMIT + "/hash/*", COMMIT_BY_HASH);
         return uriMatcher;
     }
 
@@ -63,6 +66,21 @@ public class DBProvider extends ContentProvider {
     }
 
     /**
+     * Fetch a commit by hash. Assumes hash is in uri and is a valid URI.
+     * @param uri
+     * @param projection
+     * @return
+     */
+    private Cursor getCommitByHash(Uri uri, String[] projection){
+        String hash = DBContract.CommitEntry.getHashFromUri(uri);
+        String query = DBContract.CommitEntry.TABLE_NAME + "." +
+                DBContract.CommitEntry.COLUMN_COMMIT_HASH + "=?";
+        Cursor result = sqliteQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                query , new String[]{hash}, null, null, null);
+        return result;
+    }
+
+    /**
      * Delete a specfic commit.
      * @param uri
      * @return
@@ -71,6 +89,18 @@ public class DBProvider extends ContentProvider {
         String id = DBContract.CommitEntry.getIdFromUri(uri);
         String query = DBContract.CommitEntry.TABLE_NAME + "." + DBContract.CommitEntry._ID + "=?";
         return dbHelper.getWritableDatabase().delete(DBContract.CommitEntry.TABLE_NAME, query, new String[]{id});
+    }
+
+    /**
+     * Delete a specfic commit based on hash.
+     * @param uri
+     * @return
+     */
+    private int deleteCommitByHash(Uri uri){
+        String hash = DBContract.CommitEntry.getHashFromUri(uri);
+        String query = DBContract.CommitEntry.TABLE_NAME + "."
+                + DBContract.CommitEntry.COLUMN_COMMIT_HASH + "=?";
+        return dbHelper.getWritableDatabase().delete(DBContract.CommitEntry.TABLE_NAME, query, new String[]{hash});
     }
 
     @Nullable
@@ -89,6 +119,10 @@ public class DBProvider extends ContentProvider {
                 // get a specific commit.
                 result = getCommitById(uri, projection);
                 break;
+            case COMMIT_BY_HASH:
+                //get commit by hash
+                result = getCommitByHash(uri, projection);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri.toString());
         }
@@ -105,6 +139,7 @@ public class DBProvider extends ContentProvider {
             case COMMITS:
                 return DBContract.CommitEntry.CONTENT_TYPE;
             case COMMIT_BY_ID:
+            case COMMIT_BY_HASH:
                 return DBContract.CommitEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri.toString());
@@ -177,6 +212,11 @@ public class DBProvider extends ContentProvider {
             case COMMIT_BY_ID:
                 // delete a specific commit.
                 rowsDeleted = deleteCommitById(uri);
+                getContext().getContentResolver().notifyChange(DBContract.CommitEntry.buildCommitTableUri(), null);
+                break;
+            case COMMIT_BY_HASH:
+                // delete a specific commit.
+                rowsDeleted = deleteCommitByHash(uri);
                 getContext().getContentResolver().notifyChange(DBContract.CommitEntry.buildCommitTableUri(), null);
                 break;
             default:

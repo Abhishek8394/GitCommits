@@ -13,7 +13,7 @@ import com.apbytes.gitcommits.Utility;
 public class DBHelper extends SQLiteOpenHelper {
     public static final String TAG = "DBHelper";
     public static final String DB_NAME = "gitcommits";
-    public static final int DB_VER = 1;
+    public static final int DB_VER = 2;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VER);

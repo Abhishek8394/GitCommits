@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.UUID;
 
 /**
  * Created by Abhishek on 6/8/2018.
@@ -54,6 +55,7 @@ public class DBTest {
 
     @Test
     public void  test_createDB(){
+        // InstrumentationRegistry.getTargetContext().deleteDatabase(DBContract.CommitEntry.TABLE_NAME);
         DBHelper dbHelper = new DBHelper(InstrumentationRegistry.getTargetContext());
         // list of tables that should exist.
         final HashSet<String> tables = new HashSet<>();
@@ -86,6 +88,7 @@ public class DBTest {
             cv.put(DBContract.CommitEntry.COLUMN_AUTHOR_NAME, "author-" + i);
             cv.put(DBContract.CommitEntry.COLUMN_MESSAGE, "message - " + i);
             cv.put(DBContract.CommitEntry.COLUMN_COMMIT_TIME, dateFormat.format(new Date()));
+            cv.put(DBContract.CommitEntry.COLUMN_COMMIT_HASH, UUID.randomUUID().toString());
             cvs[i] = cv;
         }
         return cvs;
@@ -124,7 +127,8 @@ public class DBTest {
         String []cols = new String[]{
                 DBContract.CommitEntry.COLUMN_MESSAGE,
                 DBContract.CommitEntry.COLUMN_AUTHOR_NAME,
-                DBContract.CommitEntry.COLUMN_COMMIT_TIME
+                DBContract.CommitEntry.COLUMN_COMMIT_TIME,
+                DBContract.CommitEntry.COLUMN_COMMIT_HASH
         };
         for(int i=0; i<cols.length; i++){
             col2ind.put(cols[i], c.getColumnIndex(cols[i]));
