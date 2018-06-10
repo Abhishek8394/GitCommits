@@ -3,8 +3,10 @@ package com.apbytes.gitcommits.networking;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import com.apbytes.gitcommits.Utility;
+import com.apbytes.gitcommits.dbHelpers.CommonQueriesHelper;
 import com.apbytes.gitcommits.dbHelpers.DBContract;
 import com.apbytes.gitcommits.githubHelpers.GitCommit;
 import com.apbytes.gitcommits.githubHelpers.GitCommitList;
@@ -12,6 +14,7 @@ import com.apbytes.gitcommits.githubHelpers.GitRepo;
 import com.apbytes.gitcommits.githubHelpers.GithubClient;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Abhishek on 6/10/2018.
@@ -37,12 +40,37 @@ public class CommitSynchronizer {
         GitRepo repo = new GitRepo(githubClient, userName, repoName);
         GitCommitList commitList = repo.getCommits(null);
         ArrayList<GitCommit> commits = commitList.getCommitList();
-        // create array instead of arraylist since we need that for bulk insert.
-        ContentValues[]commitContentValues = new ContentValues[commits.size()];
+        /**
+         * Approach: Eliminate duplicates.
+         * Rather than querying for each commit, we collect hashes in do it in one query.
+         * Then filter out those results from our fetched commits since we do not overwrite
+         * commits. Then whatever is left, is bulk inserted.
+         */
+        // Collect Hashes in a list
+        ArrayList<String> hashList = new ArrayList<>();
+        for(GitCommit commit: commits){
+            hashList.add(commit.getCommitHash());
+        }
+        // Get existing commits.
+        Cursor cursor = CommonQueriesHelper.getCommitsByHashes(contentResolver, hashList);
+        // Create a hashset of existing commit hashes.
+        HashSet<String> existingHashes = new HashSet<>();
+        if(cursor.moveToFirst()){
+            do{
+                existingHashes.add(cursor.getString(cursor.getColumnIndex(DBContract.CommitEntry.COLUMN_COMMIT_HASH)));
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        // collect new ones.
+        ArrayList<ContentValues> commitContentValues = new ArrayList<>();
         for(int i=0; i<commits.size(); i++){
             GitCommit commit = commits.get(i);
-            commitContentValues[i] = commitToContentValues(commit);
+            // dont overwrite duplicates.
+            if(! existingHashes.contains(commit.getCommitHash())){
+                commitContentValues.add(commitToContentValues(commit));
+            }
         }
-        contentResolver.bulkInsert(DBContract.CommitEntry.buildCommitTableUri(), commitContentValues);
+        // bulk insert
+        contentResolver.bulkInsert(DBContract.CommitEntry.buildCommitTableUri(), commitContentValues.toArray(new ContentValues[]{}));
     }
 }
