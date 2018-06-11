@@ -14,6 +14,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 
 /**
@@ -31,7 +32,7 @@ public class NetTester {
     }
 
     @Test
-    public void test_fetchCommits(){
+    public void test_fetchCommits() throws InvalidObjectException {
         GithubClient ghc = new GithubClient();
         GitRepo repo = ghc.getRepository("tensorflow", "tensorflow");
         GitCommitList gitCommitList = repo.getCommits(null);

@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.jcabi.github.Content;
-
 /**
  * Created by Abhishek on 6/8/2018.
  */

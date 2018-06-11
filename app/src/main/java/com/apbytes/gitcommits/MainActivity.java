@@ -1,5 +1,11 @@
 package com.apbytes.gitcommits;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     GithubClient githubClient;
     private String repoUserName = "poynt";
     private String repoName = "PoyntSamples";
+    private NetworkStateBroadcastReceiver nsBroadcastReceiver;
+    ConnectivityManager connectivitManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +39,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // setup stuff
         commitSynchronizer = new CommitSynchronizer(this);
         githubClient = new GithubClient();
-        refreshCommitList();
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        // fetch / refresh commit list.
+        connectivitManager = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        if(isConnected()){
+            refreshCommitList();
+        }
+        nsBroadcastReceiver = new NetworkStateBroadcastReceiver();
+        this.registerReceiver(nsBroadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    public boolean isConnected(){
+        NetworkInfo activeNetwork = connectivitManager.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnected();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!isConnected()){
+            Toast.makeText(this, "Could not connect to the internet.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.unregisterReceiver(nsBroadcastReceiver);
     }
 
     public void refreshCommitList(){
@@ -69,8 +99,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.action_refresh){
-            Toast.makeText(getApplicationContext(), "Refreshing", Toast.LENGTH_LONG).show();
-            refreshCommitList();
+            if(isConnected()){
+                Toast.makeText(getApplicationContext(), "Refreshing", Toast.LENGTH_LONG).show();
+                refreshCommitList();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Connect to the internet first", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
@@ -103,6 +138,17 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    private final class NetworkStateBroadcastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "network connectivity change");
+            if(isConnected()){
+                MainActivity.this.refreshCommitList();
+            }
         }
     }
 
