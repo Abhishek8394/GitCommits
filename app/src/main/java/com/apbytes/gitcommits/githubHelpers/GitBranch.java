@@ -3,7 +3,7 @@ package com.apbytes.gitcommits.githubHelpers;
 /**
  * Created by Abhishek on 6/10/2018.
  * Denotes a git branch, Dont really use this in the project.
- * But a good sensible thing to have.
+ * Just a stub.
  */
 
 public class GitBranch {

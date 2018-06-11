@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 /**
  * Created by Abhishek on 6/8/2018.
+ * Represents a github repository.
+ * For now only contains what is required.
  */
 
 public class GitRepo {
@@ -15,13 +17,20 @@ public class GitRepo {
     private String repoName;
     private GithubClient githubClient;
 
-
     public GitRepo(GithubClient gClient, String userName, String repoName) {
         this.userName = userName;
         this.repoName = repoName;
         this.githubClient = gClient;
     }
 
+    /**
+     * Fetch commits for the repo.
+     * Can provide any API params in the params hashmap. Refer
+     * to Github API for more info on the params.
+     * @param params
+     * @return
+     * @throws InvalidObjectException
+     */
     public GitCommitList getCommits(HashMap<String, String> params) throws InvalidObjectException {
         GitCommitList gitCommitList = new GitCommitList(this);
         try {

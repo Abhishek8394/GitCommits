@@ -18,6 +18,7 @@ import java.util.Date;
 
 /**
  * Created by Abhishek on 6/9/2018.
+ * Adapter for rendering commit objects on a view.
  */
 
 public class CommitAdapter extends CursorAdapter {
@@ -55,6 +56,7 @@ public class CommitAdapter extends CursorAdapter {
         }
         // bind values
         String []messageSplit = message.split("\n");
+        // get only title of message and trim if too long.
         String titleText = messageSplit[0].substring(0, Math.min(23, messageSplit[0].length())) + "..";
         titleTV.setText(titleText);
         authorTV.setText("@" + author);

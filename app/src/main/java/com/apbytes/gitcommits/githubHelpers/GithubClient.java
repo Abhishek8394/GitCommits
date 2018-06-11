@@ -2,6 +2,8 @@ package com.apbytes.gitcommits.githubHelpers;
 
 /**
  * Created by Abhishek on 6/8/2018.
+ * Represents a github client.
+ * Can contain OauthToken or Username and password (not implemented).
  */
 
 public class GithubClient {
@@ -24,6 +26,12 @@ public class GithubClient {
         return token;
     }
 
+    /**
+     * Returns a repository based on provided repo owner name and repo name.
+     * @param userName
+     * @param repoName
+     * @return
+     */
     public GitRepo getRepository(String userName, String repoName){
         return new GitRepo(this, userName, repoName);
     }

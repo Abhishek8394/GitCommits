@@ -107,6 +107,16 @@ public class DBProvider extends ContentProvider {
         return dbHelper.getWritableDatabase().delete(DBContract.CommitEntry.TABLE_NAME, query, new String[]{hash});
     }
 
+    /**
+     * Overrided query method. Supports generic query, query by id, query by hash id.
+     * generic query also support sqlite `limit` with a Uri parameter `DBProvider.QUERY_LIMIT_PARAM`
+     * @param uri
+     * @param projection
+     * @param selection
+     * @param selectionArgs
+     * @param sortOrder
+     * @return
+     */
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -139,6 +149,11 @@ public class DBProvider extends ContentProvider {
 
     }
 
+    /**
+     * Used by content resolvers to determine types.
+     * @param uri
+     * @return
+     */
     @Nullable
     @Override
     public String getType(Uri uri) {
@@ -153,6 +168,12 @@ public class DBProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Create new commit returns new uri based on internal id, not hash id.
+     * @param uri
+     * @param values
+     * @return
+     */
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
@@ -178,6 +199,12 @@ public class DBProvider extends ContentProvider {
         return resultUri;
     }
 
+    /**
+     * Performs bulk inserts.
+     * @param uri
+     * @param values
+     * @return
+     */
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -206,6 +233,13 @@ public class DBProvider extends ContentProvider {
         return retCount;
     }
 
+    /**
+     * Delete by query, id or hash id.
+     * @param uri
+     * @param selection
+     * @param selectionArgs
+     * @return
+     */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();

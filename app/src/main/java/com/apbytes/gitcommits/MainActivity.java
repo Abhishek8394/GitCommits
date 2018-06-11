@@ -26,10 +26,13 @@ import java.io.InvalidObjectException;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    // personal instance of synchronizer, github client.
     CommitSynchronizer commitSynchronizer;
     GithubClient githubClient;
+    // Default repo name. TODO read from preferences
     private String repoUserName = "poynt";
     private String repoName = "PoyntSamples";
+    // broadcast receiver for network states.
     private NetworkStateBroadcastReceiver nsBroadcastReceiver;
     ConnectivityManager connectivitManager;
 
@@ -44,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         githubClient = new GithubClient();
         // fetch / refresh commit list.
         connectivitManager = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-
         if(isConnected()){
             refreshCommitList();
         }
@@ -53,10 +54,13 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(nsBroadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
+    /**
+     * Check if network connectivity is available
+     * @return true if connected; else false.
+     */
     public boolean isConnected(){
         NetworkInfo activeNetwork = connectivitManager.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnected();
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
 
@@ -74,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         this.unregisterReceiver(nsBroadcastReceiver);
     }
 
+    /**
+     * Refreshes the commit list.
+     */
     public void refreshCommitList(){
         Log.d(TAG, "Refreshing commit list");
         AsyncTaskHelper asyncTaskHelper = new AsyncTaskHelper();
@@ -99,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.action_refresh){
+            // refresh if connected else remind of the tragic network loss.
             if(isConnected()){
                 Toast.makeText(getApplicationContext(), "Refreshing", Toast.LENGTH_LONG).show();
                 refreshCommitList();
@@ -128,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
         this.repoName = repoName;
     }
 
+    /**
+     * Async task for making network requests.
+     * Turns out, SyncAdapter may not honour immediate requests,
+     * so we make this request ourselves.
+     * TODO: check last request time and decide if should make one or not.
+     */
     private final class AsyncTaskHelper extends AsyncTask<String, Void, Void>{
 
         @Override
@@ -141,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Broadcast receiver for listening to changes in network state.
+     */
     private final class NetworkStateBroadcastReceiver extends BroadcastReceiver{
 
         @Override

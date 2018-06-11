@@ -19,6 +19,8 @@ import java.util.HashSet;
 
 /**
  * Created by Abhishek on 6/10/2018.
+ * Fetched commits and inserts them in database.
+ * Skips duplicates.
  */
 
 public class CommitSynchronizer {
@@ -37,6 +39,15 @@ public class CommitSynchronizer {
         return cv;
     }
 
+    /**
+     * Fetch and store commits.
+     * NOTE: Call this from a separate thread, since it involves a network call and some
+     * long running tasks.
+     * @param githubClient
+     * @param userName
+     * @param repoName
+     * @throws InvalidObjectException
+     */
     public void syncCommits(GithubClient githubClient, String userName, String repoName) throws InvalidObjectException {
         GitRepo repo = new GitRepo(githubClient, userName, repoName);
         GitCommitList commitList = repo.getCommits(null);

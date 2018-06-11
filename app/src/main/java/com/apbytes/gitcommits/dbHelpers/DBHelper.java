@@ -8,6 +8,7 @@ import com.apbytes.gitcommits.Utils.Utility;
 
 /**
  * Created by Abhishek on 6/8/2018.
+ * Takes care of database creation and upgrade/downgrade.
  */
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -28,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // replace DB
         db.execSQL(DBContract.CommitEntry.getDeleteCommitsTableQuery());
         Utility.log(TAG, "Dropped table");
         onCreate(db);
@@ -35,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // replace DB
         onUpgrade(db, oldVersion, newVersion);
     }
 }

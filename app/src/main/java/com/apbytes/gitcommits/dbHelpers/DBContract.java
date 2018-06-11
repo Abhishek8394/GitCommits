@@ -6,6 +6,8 @@ import android.provider.BaseColumns;
 
 /**
  * Created by Abhishek on 6/8/2018.
+ * Contains the constants and Uri {building, parsing} methods
+ * for database operations.
  */
 
 public class DBContract {

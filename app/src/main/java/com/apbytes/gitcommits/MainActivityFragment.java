@@ -30,8 +30,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     Button removebtn;
     ContentResolver contentResolver;
     CommitAdapter cursorAdapter;
-    ListView lv;
+    ListView commitListView;
     CommitSynchronizer commitSynchronizer;
+    // this determines how many commits are seen.
     int maxRecords = 10;
 
     public MainActivityFragment() {
@@ -48,11 +49,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        lv = (ListView) v.findViewById(R.id.commitListView);
+        commitListView = (ListView) v.findViewById(R.id.commitListView);
         contentResolver = getActivity().getContentResolver();
         cursorAdapter = new CommitAdapter(getActivity(), null,  CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        lv.setAdapter(cursorAdapter);
-
+        commitListView.setAdapter(cursorAdapter);
+//      // Kept code for debugging purposes.
 //        removebtn = (Button) v.findViewById(R.id.removeBtn);
 //        removebtn.setOnClickListener(new View.OnClickListener() {
 //            @Override

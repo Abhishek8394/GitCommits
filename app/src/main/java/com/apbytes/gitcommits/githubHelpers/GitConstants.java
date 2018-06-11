@@ -2,6 +2,7 @@ package com.apbytes.gitcommits.githubHelpers;
 
 /**
  * Created by Abhishek on 6/8/2018.
+ * Contain all constants for this package.
  */
 
 public class GitConstants {

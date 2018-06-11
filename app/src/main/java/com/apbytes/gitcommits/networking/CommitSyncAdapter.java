@@ -14,6 +14,9 @@ import java.io.InvalidObjectException;
 
 /**
  * Created by Abhishek on 6/10/2018.
+ * Sync adapter for syncing commits when app isn't active.
+ * In the requesting bundle provide `REPO_USER_NAME_KEY` and `REPO_NAME_KEY`
+ * containing the repo user name and the repo name respectively.
  */
 
 public class CommitSyncAdapter extends AbstractThreadedSyncAdapter {
